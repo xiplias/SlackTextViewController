@@ -3,3 +3,6 @@
 //
 
 #import "SLKTextViewController.h"
+#import "MessageFlowLayout.h"
+
+#import <LoremIpsum/LoremIpsum.h>
