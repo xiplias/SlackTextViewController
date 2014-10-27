@@ -14,6 +14,8 @@
 		4F3EDB51199ED00F004C15D6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3EDB50199ED00F004C15D6 /* UIKit.framework */; };
 		4F3EDB59199ED00F004C15D6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3EDB58199ED00F004C15D6 /* main.m */; };
 		4F3EDB5D199ED00F004C15D6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3EDB5C199ED00F004C15D6 /* AppDelegate.m */; };
+		4F759E9B19FDCA1B008C7CAB /* LaunchScreen-Swift.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F759E9719FDCA1B008C7CAB /* LaunchScreen-Swift.xib */; };
+		4F759E9C19FDCA1B008C7CAB /* Main-Swift.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F759E9919FDCA1B008C7CAB /* Main-Swift.storyboard */; };
 		4F86BF6A19F011D0007A3D4A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F86BF6919F011D0007A3D4A /* main.m */; };
 		4F86BF6D19F011D0007A3D4A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F86BF6C19F011D0007A3D4A /* AppDelegate.m */; };
 		4F86BF7319F011D0007A3D4A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F86BF7119F011D0007A3D4A /* Main.storyboard */; };
@@ -26,8 +28,6 @@
 		4F86BF9819F01234007A3D4A /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F86BF9219F01234007A3D4A /* MessageViewController.m */; };
 		4F86BFC819F050AF007A3D4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F86BFC719F050AF007A3D4A /* AppDelegate.swift */; };
 		4F86BFCA19F050AF007A3D4A /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F86BFC919F050AF007A3D4A /* MessageViewController.swift */; };
-		4F86BFCD19F050AF007A3D4A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F86BFCB19F050AF007A3D4A /* Main.storyboard */; };
-		4F86BFD219F050AF007A3D4A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F86BFD019F050AF007A3D4A /* LaunchScreen.xib */; };
 		4F86BFE519F050DD007A3D4A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F86BF8E19F01234007A3D4A /* Images.xcassets */; };
 		8C6D809F3C95C912F87F0D17 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFA9095EABC480682E6396C /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -45,6 +45,8 @@
 		4F3EDB58199ED00F004C15D6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4F3EDB5B199ED00F004C15D6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4F3EDB5C199ED00F004C15D6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		4F759E9819FDCA1B008C7CAB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = "Base.lproj/LaunchScreen-Swift.xib"; sourceTree = "<group>"; };
+		4F759E9A19FDCA1B008C7CAB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/Main-Swift.storyboard"; sourceTree = "<group>"; };
 		4F86BF6519F011D0007A3D4A /* Messenger-Storyboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Messenger-Storyboard.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F86BF6819F011D0007A3D4A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F86BF6919F011D0007A3D4A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -61,8 +63,6 @@
 		4F86BFC619F050AF007A3D4A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F86BFC719F050AF007A3D4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4F86BFC919F050AF007A3D4A /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
-		4F86BFCC19F050AF007A3D4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		4F86BFD119F050AF007A3D4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		4F86BFE719F05519007A3D4A /* Bridge-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridge-Header.h"; sourceTree = "<group>"; };
 		622BF1F6C9CF013275EF6275 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		C905E5DB18A83F74BD092CDD /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -233,8 +233,8 @@
 			children = (
 				4F86BFC719F050AF007A3D4A /* AppDelegate.swift */,
 				4F86BFC919F050AF007A3D4A /* MessageViewController.swift */,
-				4F86BFCB19F050AF007A3D4A /* Main.storyboard */,
-				4F86BFD019F050AF007A3D4A /* LaunchScreen.xib */,
+				4F759E9719FDCA1B008C7CAB /* LaunchScreen-Swift.xib */,
+				4F759E9919FDCA1B008C7CAB /* Main-Swift.storyboard */,
 				4F86BFC519F050AF007A3D4A /* Supporting Files */,
 			);
 			name = "Swift Example";
@@ -382,8 +382,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F86BFE519F050DD007A3D4A /* Images.xcassets in Resources */,
-				4F86BFCD19F050AF007A3D4A /* Main.storyboard in Resources */,
-				4F86BFD219F050AF007A3D4A /* LaunchScreen.xib in Resources */,
+				4F759E9B19FDCA1B008C7CAB /* LaunchScreen-Swift.xib in Resources */,
+				4F759E9C19FDCA1B008C7CAB /* Main-Swift.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -517,6 +517,22 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		4F759E9719FDCA1B008C7CAB /* LaunchScreen-Swift.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F759E9819FDCA1B008C7CAB /* Base */,
+			);
+			name = "LaunchScreen-Swift.xib";
+			sourceTree = "<group>";
+		};
+		4F759E9919FDCA1B008C7CAB /* Main-Swift.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F759E9A19FDCA1B008C7CAB /* Base */,
+			);
+			name = "Main-Swift.storyboard";
+			sourceTree = "<group>";
+		};
 		4F86BF7119F011D0007A3D4A /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -529,22 +545,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				4F86BF7719F011D0007A3D4A /* Base */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-		4F86BFCB19F050AF007A3D4A /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4F86BFCC19F050AF007A3D4A /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		4F86BFD019F050AF007A3D4A /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4F86BFD119F050AF007A3D4A /* Base */,
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";

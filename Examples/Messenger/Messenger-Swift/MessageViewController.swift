@@ -8,8 +8,8 @@
 
 class MessageViewController: SLKTextViewController {
 
-    override class func tableViewStyleForCoder(decoder: NSCoder) -> UITableViewStyle {
-        return UITableViewStyle.Plain;
+    override class func collectionViewLayoutForCoder(decoder: NSCoder) -> UICollectionViewLayout {
+        return UICollectionViewFlowLayout();
     }
     
     override func viewDidLoad() {
