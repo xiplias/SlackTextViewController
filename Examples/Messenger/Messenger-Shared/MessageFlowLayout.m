@@ -46,6 +46,9 @@
 }
 
 - (void)prepareLayout {
+    
+    NSLog(@"%s",__FUNCTION__);
+    
     [super prepareLayout];
     
     if ([[UIApplication sharedApplication] statusBarOrientation] != self.interfaceOrientation) {
@@ -61,6 +64,8 @@
     NSArray *itemsInVisibleRectArray = [super layoutAttributesForElementsInRect:visibleRect];
     
     NSSet *itemsIndexPathsInVisibleRectSet = [NSSet setWithArray:[itemsInVisibleRectArray valueForKey:@"indexPath"]];
+    
+    NSLog(@"itemsIndexPathsInVisibleRectSet : %@\n\n", itemsIndexPathsInVisibleRectSet);
     
     // Step 1: Remove any behaviours that are no longer visible.
     NSArray *noLongerVisibleBehaviours = [self.dynamicAnimator.behaviors filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(UIAttachmentBehavior *behaviour, NSDictionary *bindings) {
@@ -119,6 +124,7 @@
         }
         
         [self.dynamicAnimator addBehavior:springBehaviour];
+        
         if(item.representedElementCategory == UICollectionElementCategoryCell)
         {
             [self.visibleIndexPathsSet addObject:item.indexPath];
@@ -131,16 +137,27 @@
 }
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
+    
+//    NSLog(@"layoutAttributesForElementsInRect %@", NSStringFromCGRect(rect));
+//    NSLog(@"dynamicAnimator : %@", self.dynamicAnimator);
+//    NSLog(@"itemsInRect : %@\n\n", [self.dynamicAnimator itemsInRect:rect]);
+    
     return [self.dynamicAnimator itemsInRect:rect];
 }
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSLog(@"%s",__FUNCTION__);
+    
     UICollectionViewLayoutAttributes *dynamicLayoutAttributes = [self.dynamicAnimator layoutAttributesForCellAtIndexPath:indexPath];
     // Check if dynamic animator has layout attributes for a layout, otherwise use the flow layouts properties. This will prevent crashing when you add items later in a performBatchUpdates block (e.g. triggered by NSFetchedResultsController update)
     return (dynamicLayoutAttributes)?dynamicLayoutAttributes:[super layoutAttributesForItemAtIndexPath:indexPath];
 }
 
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds {
+    
+    NSLog(@"%s",__FUNCTION__);
+    
     UIScrollView *scrollView = self.collectionView;
     
     CGFloat delta;
@@ -189,6 +206,9 @@
 }
 
 - (void)prepareForCollectionViewUpdates:(NSArray *)updateItems {
+    
+    NSLog(@"%s",__FUNCTION__);
+    
     [super prepareForCollectionViewUpdates:updateItems];
     
     [updateItems enumerateObjectsUsingBlock:^(UICollectionViewUpdateItem *updateItem, NSUInteger idx, BOOL *stop) {

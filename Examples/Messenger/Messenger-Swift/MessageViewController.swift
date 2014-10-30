@@ -6,12 +6,15 @@
 //  Copyright (c) 2014 Slack Technologies, Inc. All rights reserved.
 //
 
+import Foundation
+import UIKit
+
 class MessageViewController: SLKTextViewController {
 
     var messages:NSMutableArray = NSMutableArray()
     
     override class func collectionViewLayoutForCoder(decoder: NSCoder) -> UICollectionViewLayout {
-        let layout: MessageFlowLayout = MessageFlowLayout();
+        let layout = MessageFlowLayout();
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         layout.itemSize = CGSize(width: UIScreen.mainScreen().bounds.size.width-20.0, height: 60.0)
         return layout
