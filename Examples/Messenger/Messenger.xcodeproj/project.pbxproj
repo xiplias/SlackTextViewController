@@ -29,6 +29,13 @@
 		4F86BFC819F050AF007A3D4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F86BFC719F050AF007A3D4A /* AppDelegate.swift */; };
 		4F86BFCA19F050AF007A3D4A /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F86BFC919F050AF007A3D4A /* MessageViewController.swift */; };
 		4F86BFE519F050DD007A3D4A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F86BF8E19F01234007A3D4A /* Images.xcassets */; };
+		4FE038DA1A088F390083435F /* SLKMessageViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE038D91A088F390083435F /* SLKMessageViewLayout.m */; };
+		4FE038DB1A088F390083435F /* SLKMessageViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE038D91A088F390083435F /* SLKMessageViewLayout.m */; };
+		4FE038DC1A088F390083435F /* SLKMessageViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE038D91A088F390083435F /* SLKMessageViewLayout.m */; };
+		4FE038DF1A0898700083435F /* SLKMessageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE038DE1A0898700083435F /* SLKMessageViewCell.m */; };
+		4FE038E01A0898700083435F /* SLKMessageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE038DE1A0898700083435F /* SLKMessageViewCell.m */; };
+		4FE038E11A0898700083435F /* SLKMessageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE038DE1A0898700083435F /* SLKMessageViewCell.m */; };
+		4FE038E41A0898E90083435F /* MessagesCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE038E31A0898E90083435F /* MessagesCollectionViewController.m */; };
 		4FE8A7701A021EAF00B6D202 /* MessageFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8A76F1A021EAF00B6D202 /* MessageFlowLayout.m */; };
 		4FE8A7711A021F2B00B6D202 /* MessageFluidLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8A76C1A02000300B6D202 /* MessageFluidLayout.swift */; };
 		8C6D809F3C95C912F87F0D17 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFA9095EABC480682E6396C /* libPods.a */; };
@@ -66,6 +73,12 @@
 		4F86BFC719F050AF007A3D4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4F86BFC919F050AF007A3D4A /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		4F86BFE719F05519007A3D4A /* Bridge-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridge-Header.h"; sourceTree = "<group>"; };
+		4FE038D81A088F390083435F /* SLKMessageViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLKMessageViewLayout.h; sourceTree = "<group>"; };
+		4FE038D91A088F390083435F /* SLKMessageViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLKMessageViewLayout.m; sourceTree = "<group>"; };
+		4FE038DD1A0898700083435F /* SLKMessageViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLKMessageViewCell.h; sourceTree = "<group>"; };
+		4FE038DE1A0898700083435F /* SLKMessageViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLKMessageViewCell.m; sourceTree = "<group>"; };
+		4FE038E21A0898E90083435F /* MessagesCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessagesCollectionViewController.h; sourceTree = "<group>"; };
+		4FE038E31A0898E90083435F /* MessagesCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessagesCollectionViewController.m; sourceTree = "<group>"; };
 		4FE8A76C1A02000300B6D202 /* MessageFluidLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageFluidLayout.swift; sourceTree = "<group>"; };
 		4FE8A76E1A021EAF00B6D202 /* MessageFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageFlowLayout.h; sourceTree = "<group>"; };
 		4FE8A76F1A021EAF00B6D202 /* MessageFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageFlowLayout.m; sourceTree = "<group>"; };
@@ -191,6 +204,8 @@
 			children = (
 				4F86BF6B19F011D0007A3D4A /* AppDelegate.h */,
 				4F86BF6C19F011D0007A3D4A /* AppDelegate.m */,
+				4FE038E21A0898E90083435F /* MessagesCollectionViewController.h */,
+				4FE038E31A0898E90083435F /* MessagesCollectionViewController.m */,
 				4F86BF7119F011D0007A3D4A /* Main.storyboard */,
 				4F86BF7619F011D0007A3D4A /* LaunchScreen.xib */,
 				4F86BF6719F011D0007A3D4A /* Supporting Files */,
@@ -226,6 +241,10 @@
 				4F86BF9219F01234007A3D4A /* MessageViewController.m */,
 				4F86BF8F19F01234007A3D4A /* MessageTableViewCell.h */,
 				4F86BF9019F01234007A3D4A /* MessageTableViewCell.m */,
+				4FE038D81A088F390083435F /* SLKMessageViewLayout.h */,
+				4FE038D91A088F390083435F /* SLKMessageViewLayout.m */,
+				4FE038DD1A0898700083435F /* SLKMessageViewCell.h */,
+				4FE038DE1A0898700083435F /* SLKMessageViewCell.m */,
 				4FE8A76E1A021EAF00B6D202 /* MessageFlowLayout.h */,
 				4FE8A76F1A021EAF00B6D202 /* MessageFlowLayout.m */,
 				4F86BF8E19F01234007A3D4A /* Images.xcassets */,
@@ -496,7 +515,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F86BF9719F01234007A3D4A /* MessageViewController.m in Sources */,
+				4FE038DA1A088F390083435F /* SLKMessageViewLayout.m in Sources */,
 				4F3EDB5D199ED00F004C15D6 /* AppDelegate.m in Sources */,
+				4FE038DF1A0898700083435F /* SLKMessageViewCell.m in Sources */,
 				4F86BF9519F01234007A3D4A /* MessageTableViewCell.m in Sources */,
 				4F3EDB59199ED00F004C15D6 /* main.m in Sources */,
 			);
@@ -507,7 +528,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F86BF9819F01234007A3D4A /* MessageViewController.m in Sources */,
+				4FE038DB1A088F390083435F /* SLKMessageViewLayout.m in Sources */,
 				4F86BF9619F01234007A3D4A /* MessageTableViewCell.m in Sources */,
+				4FE038E41A0898E90083435F /* MessagesCollectionViewController.m in Sources */,
+				4FE038E01A0898700083435F /* SLKMessageViewCell.m in Sources */,
 				4F86BF6D19F011D0007A3D4A /* AppDelegate.m in Sources */,
 				4F86BF6A19F011D0007A3D4A /* main.m in Sources */,
 			);
@@ -518,7 +542,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F86BFCA19F050AF007A3D4A /* MessageViewController.swift in Sources */,
+				4FE038DC1A088F390083435F /* SLKMessageViewLayout.m in Sources */,
 				4FE8A7701A021EAF00B6D202 /* MessageFlowLayout.m in Sources */,
+				4FE038E11A0898700083435F /* SLKMessageViewCell.m in Sources */,
 				4FE8A7711A021F2B00B6D202 /* MessageFluidLayout.swift in Sources */,
 				4F86BFC819F050AF007A3D4A /* AppDelegate.swift in Sources */,
 			);
