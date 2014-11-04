@@ -162,7 +162,7 @@
 {
 #warning Incomplete method implementation -- Return the number of sections
     
-    return 0;
+    return 1;
 }
 
 
@@ -227,7 +227,7 @@
 #warning Potentially incomplete method implementation.
     // Returns the number of sections.
     
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
