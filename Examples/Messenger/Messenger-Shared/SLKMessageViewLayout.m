@@ -10,6 +10,7 @@
 
 @interface SLKMessageViewLayout()
 @property (nonatomic, strong) NSMutableDictionary *rects;
+@property (nonatomic, strong) NSMutableArray *indexPathsToAnimate;
 @property (nonatomic) CGFloat topPadding;
 @end
 
@@ -225,13 +226,14 @@
 
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
 {
-    BOOL restart = !(CGSizeEqualToSize(newBounds.size, self.collectionView.frame.size));
+    CGRect oldBounds = self.collectionView.bounds;
     
-    if (restart) {
+    // Responding to Device Rotations
+    if (!CGSizeEqualToSize(oldBounds.size, newBounds.size)) {
         _rects = nil;
+        return YES;
     }
-    
-    return restart;
+    return NO;
 }
 
 /*
@@ -273,7 +275,33 @@
 
 - (void)prepareForCollectionViewUpdates:(NSArray *)updateItems
 {
+    [super prepareForCollectionViewUpdates:updateItems];
     
+    if (_indexPathsToAnimate) {
+        _indexPathsToAnimate = nil;
+    }
+    
+    _indexPathsToAnimate = [NSMutableArray array];
+    
+    for (UICollectionViewUpdateItem *updateItem in updateItems) {
+        switch (updateItem.updateAction) {
+            case UICollectionUpdateActionInsert:
+                [self.indexPathsToAnimate addObject:updateItem.indexPathAfterUpdate];
+                break;
+            case UICollectionUpdateActionDelete:
+                [self.indexPathsToAnimate addObject:updateItem.indexPathBeforeUpdate];
+                break;
+            case UICollectionUpdateActionMove:
+                [self.indexPathsToAnimate addObject:updateItem.indexPathBeforeUpdate];
+                [self.indexPathsToAnimate addObject:updateItem.indexPathAfterUpdate];
+                break;
+            default:
+                NSLog(@"unhandled case: %@", updateItem);
+                break;
+        }
+    }
+    
+    NSLog(@"_indexPathsToAnimate : %@", _indexPathsToAnimate);
 }
 
 - (void)finalizeCollectionViewUpdates

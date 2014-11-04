@@ -34,22 +34,33 @@ static NSString *identifier = @"reuseIdentifier";
 {
     [super viewDidLoad];
     
-    NSMutableArray *array = [[NSMutableArray alloc] init];
+//    NSMutableArray *array = [[NSMutableArray alloc] init];
+//    
+//    for (int i = 0; i < 5; i++) {
+//        NSInteger count = (arc4random() % 1)+1;
+//        NSString *sentence = [LoremIpsum sentencesWithNumber:count];
+//        [array addObject:[NSString stringWithFormat:@"#%d: %@", i, sentence]];
+//    }
+//    
+//    self.messages = [[NSMutableArray alloc] initWithArray:array];
     
-    for (int i = 0; i < 5; i++) {
-        NSInteger count = (arc4random() % 1)+1;
-        NSString *sentence = [LoremIpsum sentencesWithNumber:count];
-        [array addObject:[NSString stringWithFormat:@"#%d: %@", i, sentence]];
-    }
-    
-    self.messages = [[NSMutableArray alloc] initWithArray:array];
-    
+    self.messages = [NSMutableArray new];
+                     
     self.inverted = NO;
     self.textInputbar.translucent = YES;
+    self.shouldScrollToBottomAfterKeyboardShows = YES;
+    
+    self.bounces = YES;
+    self.shakeToClearEnabled = YES;
+    self.keyboardPanningEnabled = YES;
     
     [self.collectionView registerClass:[SLKMessageViewCell class] forCellWithReuseIdentifier:identifier];
     
-    self.collectionView.backgroundColor = [UIColor redColor];
+    self.textView.placeholder = NSLocalizedString(@"Message", nil);
+    self.textView.placeholderColor = [UIColor lightGrayColor];
+    self.textView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    
+    [self.rightButton setTitle:NSLocalizedString(@"Send", nil) forState:UIControlStateNormal];
 }
 
 
@@ -91,6 +102,13 @@ static NSString *identifier = @"reuseIdentifier";
     
     // This little trick validates any pending auto-correction or auto-spelling just after hitting the 'Send' button
     [self.textView refreshFirstResponder];
+    
+    NSString *message = [self.textView.text copy];
+    
+    [self.messages insertObject:message atIndex:0];
+    [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]];
+    
+    [self.tableView slk_scrollToTopAnimated:YES];
     
     [super didPressRightButton:sender];
 }
