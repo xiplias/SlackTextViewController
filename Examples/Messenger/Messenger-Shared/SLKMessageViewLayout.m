@@ -64,8 +64,6 @@
 
 - (CGFloat)topPadding
 {
-    return 0.0;
-    
     CGFloat viewHeight = CGRectGetHeight(self.collectionView.bounds);
     CGRect lastRect = [self.rects[[self lastIndexPath]] CGRectValue];
     
