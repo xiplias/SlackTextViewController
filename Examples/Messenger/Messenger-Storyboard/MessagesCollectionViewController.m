@@ -108,7 +108,7 @@ static NSString *identifier = @"reuseIdentifier";
     [self.messages insertObject:message atIndex:0];
     [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]];
     
-    [self.tableView slk_scrollToTopAnimated:YES];
+    [self.collectionView slk_scrollToBottomAnimated:YES];
     
     [super didPressRightButton:sender];
 }

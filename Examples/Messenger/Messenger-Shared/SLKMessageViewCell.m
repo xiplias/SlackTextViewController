@@ -20,6 +20,7 @@
             _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
             _titleLabel.numberOfLines = 0;
             _titleLabel.backgroundColor = [UIColor lightGrayColor];
+            _titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
             [self.contentView addSubview:self.titleLabel];
         }
     }

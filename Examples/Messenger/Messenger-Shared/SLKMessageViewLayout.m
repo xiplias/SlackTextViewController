@@ -69,8 +69,16 @@
     CGRect lastRect = [self.rects[[self lastIndexPath]] CGRectValue];
     
     CGFloat padding = viewHeight-CGRectGetHeight(lastRect);
+    padding -= [self contentSizeHeight];
+    
+//    padding -= 44.0;
+//    padding -= 20.0;
     
     NSLog(@"padding : %f\n\n", padding);
+    
+    if (padding < 0) {
+        padding = 0;
+    }
 
     return padding;
 }
@@ -91,7 +99,7 @@
             maxHeight += [self topPadding];
         }
     }
-
+    
     return CGPointMake(self.sectionInset.left, maxHeight);
 }
 
@@ -134,7 +142,7 @@
     if (!_rects) {
         _rects = [NSMutableDictionary new];
     }
-
+    
     for (NSInteger section = [self.collectionView numberOfSections]-1; section >= 0; section--) {
         for (NSInteger row = [self.collectionView numberOfItemsInSection:section]-1; row >= 0; row--) {
             [self populateRectForIndexPath:[NSIndexPath indexPathForRow:row inSection:section]];
@@ -162,6 +170,8 @@
 {
     [super prepareLayout];
     
+    NSLog(@"%s",__FUNCTION__);
+    
     [self populateAllRects];
 }
 
@@ -174,37 +184,42 @@
 {
     [self populateAllRects];
     
-    CGFloat maxHeight = 0.0;
+    CGSize collectionViewSize = self.collectionView.frame.size;
 
+    CGFloat contentSizeHeight = [self contentSizeHeight];
+    
+    if (contentSizeHeight < collectionViewSize.height) {
+        contentSizeHeight = collectionViewSize.height;
+//        contentSizeHeight -= 44.0;
+//        contentSizeHeight -= 20.0;
+    }
+    
+    NSLog(@"contentSizeHeight : %f\n\n", contentSizeHeight);
+
+    return  CGSizeMake(collectionViewSize.width, contentSizeHeight);
+}
+
+- (CGFloat)contentSizeHeight
+{
+    CGFloat height = 0.0;
+    
+    NSInteger numberOfItems = [self.rects allValues].count;
+    
     for (NSIndexPath *indexPath in [self.rects allKeys]) {
         CGRect frame = [self.rects[indexPath] CGRectValue];
-        maxHeight += CGRectGetHeight(frame);
+        height += CGRectGetHeight(frame);
     }
     
-    CGSize collectionViewSize = self.collectionView.frame.size;
-    NSLog(@"collectionViewSize : %@", NSStringFromCGSize(collectionViewSize));
-
-    CGSize contentSize = CGSizeMake(collectionViewSize.width, maxHeight);
-    
-    contentSize.height += [self topPadding];
-    contentSize.height += self.sectionInset.top+self.sectionInset.bottom;
-    contentSize.height += self.minimumLineSpacing * [self numberOfItemsInAllSections]-1;
-    
-    NSLog(@"contentSize : %@", NSStringFromCGSize(contentSize));
-    
-    if (contentSize.height < collectionViewSize.height) {
-        contentSize.height = collectionViewSize.height;
+    if (numberOfItems > 0) {
+        height += self.sectionInset.top+self.sectionInset.bottom;
+        height += self.minimumLineSpacing * numberOfItems-1;
     }
     
-    NSLog(@"contentSize : %@\n\n", NSStringFromCGSize(contentSize));
-
-    return contentSize;
+    return height;
 }
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
 {
-    [self populateAllRects];
-    
     NSMutableArray *array = [@[] mutableCopy];
 
     for (NSIndexPath *indexPath in [self.rects allKeys]) {
@@ -226,8 +241,15 @@
 
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
 {
+    NSLog(@"shouldInvalidateLayoutForBoundsChange : %@", [super shouldInvalidateLayoutForBoundsChange:newBounds] ? @"YES" : @"NO");
+    
     CGRect oldBounds = self.collectionView.bounds;
     
+    NSLog(@"%s",__FUNCTION__);
+    
+    NSLog(@"oldBounds : %@", NSStringFromCGRect(oldBounds));
+    NSLog(@"newBounds : %@", NSStringFromCGRect(newBounds));
+
     // Responding to Device Rotations
     if (!CGSizeEqualToSize(oldBounds.size, newBounds.size)) {
         _rects = nil;
@@ -235,6 +257,7 @@
     }
     return NO;
 }
+
 
 /*
 
@@ -275,33 +298,33 @@
 
 - (void)prepareForCollectionViewUpdates:(NSArray *)updateItems
 {
-    [super prepareForCollectionViewUpdates:updateItems];
-    
-    if (_indexPathsToAnimate) {
-        _indexPathsToAnimate = nil;
-    }
-    
-    _indexPathsToAnimate = [NSMutableArray array];
-    
-    for (UICollectionViewUpdateItem *updateItem in updateItems) {
-        switch (updateItem.updateAction) {
-            case UICollectionUpdateActionInsert:
-                [self.indexPathsToAnimate addObject:updateItem.indexPathAfterUpdate];
-                break;
-            case UICollectionUpdateActionDelete:
-                [self.indexPathsToAnimate addObject:updateItem.indexPathBeforeUpdate];
-                break;
-            case UICollectionUpdateActionMove:
-                [self.indexPathsToAnimate addObject:updateItem.indexPathBeforeUpdate];
-                [self.indexPathsToAnimate addObject:updateItem.indexPathAfterUpdate];
-                break;
-            default:
-                NSLog(@"unhandled case: %@", updateItem);
-                break;
-        }
-    }
-    
-    NSLog(@"_indexPathsToAnimate : %@", _indexPathsToAnimate);
+//    [super prepareForCollectionViewUpdates:updateItems];
+//    
+//    if (_indexPathsToAnimate) {
+//        _indexPathsToAnimate = nil;
+//    }
+//    
+//    _indexPathsToAnimate = [NSMutableArray array];
+//    
+//    for (UICollectionViewUpdateItem *updateItem in updateItems) {
+//        switch (updateItem.updateAction) {
+//            case UICollectionUpdateActionInsert:
+//                [self.indexPathsToAnimate addObject:updateItem.indexPathAfterUpdate];
+//                break;
+//            case UICollectionUpdateActionDelete:
+//                [self.indexPathsToAnimate addObject:updateItem.indexPathBeforeUpdate];
+//                break;
+//            case UICollectionUpdateActionMove:
+//                [self.indexPathsToAnimate addObject:updateItem.indexPathBeforeUpdate];
+//                [self.indexPathsToAnimate addObject:updateItem.indexPathAfterUpdate];
+//                break;
+//            default:
+//                NSLog(@"unhandled case: %@", updateItem);
+//                break;
+//        }
+//    }
+//    
+//    NSLog(@"_indexPathsToAnimate : %@", _indexPathsToAnimate);
 }
 
 - (void)finalizeCollectionViewUpdates
