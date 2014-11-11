@@ -241,17 +241,10 @@
 
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
 {
-    NSLog(@"shouldInvalidateLayoutForBoundsChange : %@", [super shouldInvalidateLayoutForBoundsChange:newBounds] ? @"YES" : @"NO");
-    
     CGRect oldBounds = self.collectionView.bounds;
-    
-    NSLog(@"%s",__FUNCTION__);
-    
-    NSLog(@"oldBounds : %@", NSStringFromCGRect(oldBounds));
-    NSLog(@"newBounds : %@", NSStringFromCGRect(newBounds));
 
-    // Responding to Device Rotations
-    if (!CGSizeEqualToSize(oldBounds.size, newBounds.size)) {
+    // Responding to Device Rotation
+    if (CGRectGetWidth(oldBounds) != CGRectGetWidth(newBounds)) {
         _rects = nil;
         return YES;
     }
