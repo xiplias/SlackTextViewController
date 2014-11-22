@@ -12,8 +12,6 @@
 	<dict>
 		<key>8E9694F087F70D8D068B66654B1CC8608B5F6B2D</key>
 		<string>https://github.com/tinyspeck/slack-chat-kit.git</string>
-		<key>DD091C5D03D23C2F1EC054BC9C018DF9A9125FD6</key>
-		<string>https://github.com/dzenbot/DZNEmptyDataSet.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Examples/Messenger/Messenger.xcworkspace</string>
@@ -21,8 +19,6 @@
 	<dict>
 		<key>8E9694F087F70D8D068B66654B1CC8608B5F6B2D</key>
 		<string>../../..</string>
-		<key>DD091C5D03D23C2F1EC054BC9C018DF9A9125FD6</key>
-		<string>../../../../Desktop/DZN/OSS/DZNEmptyDataSet</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/tinyspeck/slack-chat-kit.git</string>
@@ -32,14 +28,6 @@
 	<string>8E9694F087F70D8D068B66654B1CC8608B5F6B2D</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
-		<dict>
-			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.git</string>
-			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>DD091C5D03D23C2F1EC054BC9C018DF9A9125FD6</string>
-			<key>IDESourceControlWCCName</key>
-			<string>DZNEmptyDataSet</string>
-		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>

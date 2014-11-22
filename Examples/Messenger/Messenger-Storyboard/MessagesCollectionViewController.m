@@ -34,18 +34,16 @@ static NSString *identifier = @"reuseIdentifier";
 {
     [super viewDidLoad];
     
-//    NSMutableArray *array = [[NSMutableArray alloc] init];
-//    
-//    for (int i = 0; i < 5; i++) {
-//        NSInteger count = (arc4random() % 1)+1;
-//        NSString *sentence = [LoremIpsum sentencesWithNumber:count];
-//        [array addObject:[NSString stringWithFormat:@"#%d: %@", i, sentence]];
-//    }
-//    
-//    self.messages = [[NSMutableArray alloc] initWithArray:array];
+    NSMutableArray *array = [[NSMutableArray alloc] init];
     
-    self.messages = [NSMutableArray new];
-                     
+    for (int i = 0; i < 5; i++) {
+        NSInteger count = (arc4random() % 1)+1;
+        NSString *sentence = [LoremIpsum sentencesWithNumber:count];
+        [array addObject:[NSString stringWithFormat:@"#%d: %@", i, sentence]];
+    }
+    
+    self.messages = [[NSMutableArray alloc] initWithArray:array];
+    
     self.inverted = NO;
     self.textInputbar.translucent = YES;
     self.shouldScrollToBottomAfterKeyboardShows = YES;
@@ -135,7 +133,7 @@ static NSString *identifier = @"reuseIdentifier";
 }
 
 
-#pragma mark UICollectionViewDelegate
+#pragma mark SLKMessageViewLayoutDelegate
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

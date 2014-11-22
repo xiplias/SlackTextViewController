@@ -14,19 +14,16 @@ class MessageViewController: SLKTextViewController {
     var messages:NSMutableArray = NSMutableArray()
     
     override class func collectionViewLayoutForCoder(decoder: NSCoder) -> UICollectionViewLayout {
-        let layout = MessageFlowLayout();
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        layout.itemSize = CGSize(width: UIScreen.mainScreen().bounds.size.width-20.0, height: 60.0)
+        let layout = SLKMessageViewLayout();
         return layout
     }
     
     override func viewDidLoad() {
         
-        // In progress in branch 'swift-example'
         super.viewDidLoad()
         
         self.bounces = true
-        self.undoShakingEnabled = true
+        self.shakeToClearEnabled = true
         self.keyboardPanningEnabled = true
         self.inverted = false
         
@@ -43,7 +40,7 @@ class MessageViewController: SLKTextViewController {
         
         self.typingIndicatorView.canResignByTouch = true
 
-        self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "CollectionViewCell")
+        self.collectionView!.registerClass(SLKMessageViewCell.self, forCellWithReuseIdentifier: "CollectionViewCell")
         self.collectionView!.backgroundColor = UIColor.whiteColor()
         
         for index in 0...101 {
@@ -51,6 +48,30 @@ class MessageViewController: SLKTextViewController {
             self.messages.addObject(message)
         }
     }
+    
+    // MARK: - SLKTextViewController
+    
+    override func didPressLeftButton(sender: AnyObject!) {
+        
+    }
+    
+    override func didPressRightButton(sender: AnyObject!) {
+        
+        self.textView.refreshFirstResponder()
+        
+        let message = self.textView.text.copy() as NSString
+        
+        self.messages.insertObject(message, atIndex: 0)
+        
+        let idxPath : NSIndexPath = NSIndexPath(forItem: 0, inSection: 0)
+        self.collectionView.insertItemsAtIndexPaths([idxPath])
+        
+        self.collectionView.slk_scrollToBottomAnimated(true)
+        
+        super.didPressRightButton(sender)
+    }
+    
+    // MARK: - UICollectionViewDataSource
     
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
@@ -60,12 +81,39 @@ class MessageViewController: SLKTextViewController {
         return self.messages.count
     }
     
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CollectionViewCell", forIndexPath: indexPath) as UICollectionViewCell
+    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> SLKMessageViewCell {
+        
+        let message = self.messages.objectAtIndex(indexPath.row) as NSString
+        
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CollectionViewCell", forIndexPath: indexPath) as SLKMessageViewCell
         cell.backgroundColor = UIColor.blackColor()
+        cell.titleLabel.text = message
+
         return cell
     }
 
+    func collectionView(collectionView: UICollectionView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        let message = self.messages.objectAtIndex(indexPath.row) as NSString
+        let width: CGFloat = CGRectGetWidth(collectionView.frame)
+        
+        var paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        paragraphStyle.alignment = NSTextAlignment.Left
+        
+        var attributes: NSDictionary = [NSFontAttributeName: UIFont.systemFontOfSize(17.0), NSParagraphStyleAttributeName: paragraphStyle]
+
+        let bounds: CGRect = message.boundingRectWithSize(CGSizeMake(width, 0.0), options:NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: attributes, context: nil)
+
+        if (message.length == 0) {
+            return 0.0;
+        }
+        
+        return (CGRectGetHeight(bounds)) as CGFloat;
+    }
+    
+    // MARK: - UICollectionViewDataSource
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
