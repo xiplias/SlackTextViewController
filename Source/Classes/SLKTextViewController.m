@@ -90,7 +90,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
 - (instancetype)initWithTableViewStyle:(UITableViewStyle)style
 {
     NSAssert([self class] != [SLKTextViewController class], @"Oops! You must subclass SLKTextViewController.");
-    
+
     if (self = [super initWithNibName:nil bundle:nil])
     {
         self.scrollViewProxy = [self tableViewWithStyle:style];
@@ -102,7 +102,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
 - (instancetype)initWithCollectionViewLayout:(UICollectionViewLayout *)layout
 {
     NSAssert([self class] != [SLKTextViewController class], @"Oops! You must subclass SLKTextViewController.");
-    
+
     if (self = [super initWithNibName:nil bundle:nil])
     {
         self.scrollViewProxy = [self collectionViewWithLayout:layout];
@@ -114,19 +114,19 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
 - (instancetype)initWithCoder:(NSCoder *)decoder
 {
     NSAssert([self class] != [SLKTextViewController class], @"Oops! You must subclass SLKTextViewController.");
-    
+
     if (self = [super initWithCoder:decoder])
     {
         UITableViewStyle tableViewStyle = [[self class] tableViewStyleForCoder:decoder];
         UICollectionViewLayout *collectionViewLayout = [[self class] collectionViewLayoutForCoder:decoder];
-        
+
         if ([collectionViewLayout isKindOfClass:[UICollectionViewLayout class]]) {
             self.scrollViewProxy = [self collectionViewWithLayout:collectionViewLayout];
         }
         else {
             self.scrollViewProxy = [self tableViewWithStyle:tableViewStyle];
         }
-        
+
         [self commonInit];
     }
     return self;
@@ -135,7 +135,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
 - (void)commonInit
 {
     [self registerNotifications];
-    
+
     self.bounces = YES;
     self.inverted = YES;
     self.shakeToClearEnabled = NO;
@@ -151,12 +151,12 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
 - (void)loadView
 {
     [super loadView];
-        
+
     [self.view addSubview:self.scrollViewProxy];
     [self.view addSubview:self.autoCompletionView];
     [self.view addSubview:self.typingIndicatorView];
     [self.view addSubview:self.textInputbar];
-    
+
     [self setupViewConstraints];
 }
 
@@ -168,10 +168,10 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
     // Invalidates this flag when the view appears
     self.textView.didNotResignFirstResponder = NO;
-    
+
     [UIView performWithoutAnimation:^{
         // Reloads any cached text
         [self reloadTextView];
@@ -181,21 +181,21 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
+
     [self.scrollViewProxy flashScrollIndicators];
-    
+
     self.isViewVisible = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
+
     // Stops the keyboard from being dismissed during the navigation controller's "swipe-to-pop"
     self.textView.didNotResignFirstResponder = self.isMovingFromParentViewController;
-    
+
     self.isViewVisible = NO;
-    
+
     // Caches the text before it's too late!
     [self cacheTextView];
 }
@@ -238,7 +238,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
         _tableView.scrollsToTop = YES;
         _tableView.dataSource = self;
         _tableView.delegate = self;
-        
+
         _tableView.tableFooterView = [UIView new];
     }
     return _tableView;
@@ -279,14 +279,14 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
         _textInputbar = [SLKTextInputbar new];
         _textInputbar.translatesAutoresizingMaskIntoConstraints = NO;
         _textInputbar.controller = self;
-        
+
         [_textInputbar.leftButton addTarget:self action:@selector(didPressLeftButton:) forControlEvents:UIControlEventTouchUpInside];
         [_textInputbar.rightButton addTarget:self action:@selector(didPressRightButton:) forControlEvents:UIControlEventTouchUpInside];
         [_textInputbar.editortLeftButton addTarget:self action:@selector(didCancelTextEditing:) forControlEvents:UIControlEventTouchUpInside];
         [_textInputbar.editortRightButton addTarget:self action:@selector(didCommitTextEditing:) forControlEvents:UIControlEventTouchUpInside];
-        
+
         _textInputbar.textView.delegate = self;
-        
+
         self.verticalPanGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didPanTextView:)];
         self.verticalPanGesture.delegate = self;
         [_textInputbar.textView addGestureRecognizer:self.verticalPanGesture];
@@ -310,11 +310,11 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (_tableView.isEditing) {
         return YES;
     }
-    
+
     if (self.textInputbar.isEditing) {
         return YES;
     }
-    
+
     return NO;
 }
 
@@ -348,15 +348,15 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (!self.isKeyboardPanningEnabled) {
         return nil;
     }
-    
+
     SLKInputAccessoryView *view = [[SLKInputAccessoryView alloc] initWithFrame:self.textInputbar.bounds];
     view.backgroundColor = [UIColor clearColor];
     view.userInteractionEnabled = NO;
-    
+
 #if SLK_INPUT_ACCESSORY_DEBUG
     view.backgroundColor = [[UIColor redColor] colorWithAlphaComponent:0.5];
 #endif
-    
+
     return view;
 }
 
@@ -373,10 +373,10 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
 - (CGFloat)inputBarHeightForLines:(NSUInteger)numberOfLines
 {
     CGFloat height = [self deltaInputbarHeight];
-    
+
     height += roundf(self.textView.font.lineHeight*numberOfLines);
     height += self.textInputbar.contentInset.top+self.textInputbar.contentInset.bottom;
-    
+
     return height;
 }
 
@@ -384,7 +384,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
 {
     CGFloat height = 0.0;
     CGFloat minimumHeight = [self minimumInputbarHeight];
-    
+
     if (self.textView.numberOfLines == 1) {
         height = minimumHeight;
     }
@@ -394,16 +394,16 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     else {
         height = [self inputBarHeightForLines:self.textView.maxNumberOfLines];
     }
-    
-    
+
+
     if (height < minimumHeight) {
         height = minimumHeight;
     }
-    
+
     if (self.isEditing) {
         height += self.textInputbar.accessoryViewHeight;
     }
-    
+
     return roundf(height);
 }
 
@@ -412,14 +412,14 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     CGFloat keyboardHeight = 0.0;
 
     CGRect endFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    
+
     self.externalKeyboardDetected = [self detectExternalKeyboardInNotification:notification];
-    
+
     // Always return 0 if an external keyboard has been detected
     if (self.externalKeyboardDetected) {
         return keyboardHeight;
     }
-    
+
     // Sets the minimum height of the keyboard
     if (self.isMovingKeyboard) {
         if (!SLK_IS_IOS8_AND_HIGHER && SLK_IS_LANDSCAPE) {
@@ -440,26 +440,26 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
             keyboardHeight = 0.0;
         }
     }
-    
-    keyboardHeight -= [self appropriateBottomMarginToWindow];
+
+    //keyboardHeight -= [self appropriateBottomMarginToWindow];
     keyboardHeight -= CGRectGetHeight(self.textView.inputAccessoryView.bounds);
-    
+
     if (keyboardHeight < 0) {
         keyboardHeight = 0.0;
     }
-    
+
     return keyboardHeight;
 }
 
 - (CGFloat)appropriateScrollViewHeight
 {
     CGFloat height = self.view.bounds.size.height;
-    
+
     height -= self.keyboardHC.constant;
     height -= self.textInputbarHC.constant;
     height -= self.autoCompletionViewHC.constant;
     height -= self.typingIndicatorViewHC.constant;
-    
+
     if (height < 0) return 0;
     else return roundf(height);
 }
@@ -467,22 +467,22 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
 - (CGFloat)appropriateBottomMarginToWindow
 {
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    
+
     CGRect windowFrame = [window convertRect:window.frame fromView:self.view];
     windowFrame.origin = CGPointZero;
-    
+
     CGRect viewRect = [window convertRect:self.view.frame fromView:nil];
-    
+
     CGFloat bottomWindow = CGRectGetMaxY(windowFrame);
     CGFloat bottomView = CGRectGetMaxY(viewRect);
-    
+
     // Retrieve the status bar's height when the in-call status bar is displayed
     if (CGRectGetHeight([UIApplication sharedApplication].statusBarFrame) > 20.0) {
         bottomView += CGRectGetHeight([UIApplication sharedApplication].statusBarFrame)/2.0;
     }
-    
+
     CGFloat margin = bottomWindow - bottomView;
-    
+
     // Do NOT consider a status bar height gap
     return (margin > 20) ? margin : 0.0;
 }
@@ -490,7 +490,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
 - (NSString *)appropriateKeyboardNotificationName:(NSNotification *)notification
 {
     NSString *name = notification.name;
-    
+
     if ([name isEqualToString:UIKeyboardWillShowNotification]) {
         return SLKKeyboardWillShowNotification;
     }
@@ -544,13 +544,13 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if ([self.scrollViewProxy isEqual:scrollView]) {
         return;
     }
-    
+
     _singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapScrollView:)];
     _singleTapGesture.delegate = self;
     [_singleTapGesture requireGestureRecognizerToFail:scrollView.panGestureRecognizer];
-    
+
     [scrollView addGestureRecognizer:self.singleTapGesture];
-    
+
     _scrollViewProxy = scrollView;
 }
 
@@ -559,9 +559,9 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (self.autoCompleting == autoCompleting) {
         return;
     }
-    
+
     _autoCompleting = autoCompleting;
-    
+
     self.scrollViewProxy.scrollEnabled = !autoCompleting;
 }
 
@@ -570,12 +570,12 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (self.isInverted == inverted) {
         return;
     }
-    
+
     _inverted = inverted;
-    
+
     self.scrollViewProxy.transform = CGAffineTransformMake(1, 0, 0, inverted ? -1 : 1, 0, 0);
     self.edgesForExtendedLayout = inverted ? UIRectEdgeNone : UIRectEdgeAll;
-    
+
     if (!inverted && ((self.edgesForExtendedLayout & UIRectEdgeBottom) > 0)) {
         self.edgesForExtendedLayout = self.edgesForExtendedLayout & ~UIRectEdgeBottom;
     }
@@ -591,9 +591,9 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (self.keyboardPanningEnabled == enabled) {
         return;
     }
-    
+
     self.scrollViewProxy.keyboardDismissMode = enabled ? UIScrollViewKeyboardDismissModeInteractive : UIScrollViewKeyboardDismissModeNone;
-    
+
     _keyboardPanningEnabled = enabled;
 }
 
@@ -603,16 +603,16 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (self.keyboardStatus == status) {
         return NO;
     }
-    
+
     // Skips illogical conditions
     if ([self isIllogicalKeyboardStatus:status]) {
         return NO;
     }
-    
+
     _keyboardStatus = status;
-    
+
     [self didChangeKeyboardStatus:status];
-    
+
     return YES;
 }
 
@@ -625,7 +625,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if ([self.textView isFirstResponder]) {
         return;
     }
-    
+
     if (!animated) {
         [UIView performWithoutAnimation:^{
             [self.textView becomeFirstResponder];
@@ -639,14 +639,14 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
 - (void)dismissKeyboard:(BOOL)animated
 {
     if (![self.textView isFirstResponder]) {
-        
+
         // Dismisses the keyboard from any first responder in the window.
         if (self.keyboardHC.constant > 0) {
             [self.view.window endEditing:NO];
         }
         return;
     }
-    
+
     if (!animated)
     {
         [UIView performWithoutAnimation:^{
@@ -672,18 +672,18 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
 {
     self.textInputbar.rightButton.enabled = [self canPressRightButton];
     self.textInputbar.editortRightButton.enabled = [self canPressRightButton];
-    
+
     CGFloat inputbarHeight = [self appropriateInputbarHeight];
-    
+
     if (inputbarHeight != self.textInputbarHC.constant)
     {
         self.textInputbarHC.constant = inputbarHeight;
         self.scrollViewHC.constant = [self appropriateScrollViewHeight];
-        
+
         if (animated) {
-            
+
             BOOL bounces = self.bounces && [self.textView isFirstResponder];
-            
+
             [self.view slk_animateLayoutIfNeededWithBounce:bounces
                                                    options:UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionLayoutSubviews|UIViewAnimationOptionBeginFromCurrentState
                                                 animations:^{
@@ -696,10 +696,10 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
             [self.view layoutIfNeeded];
         }
     }
-    
+
     // Only updates the input view if the number of line changed
     [self reloadInputAccessoryViewIfNeeded];
-    
+
     // Toggles auto-correction if requiered
     [self enableTypingSuggestionIfNeeded];
 }
@@ -707,11 +707,11 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
 - (BOOL)canPressRightButton
 {
     NSString *text = [self.textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    
+
     if (text.length > 0 && ![self.textInputbar limitExceeded]) {
         return YES;
     }
-    
+
     return NO;
 }
 
@@ -725,10 +725,10 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (self.shouldClearTextAtRightButtonPress) {
         [self.textView setText:nil];
     }
-    
+
     // Clears cache
     [self clearCachedText];
-    
+
     // Clears the undo manager
     if (self.textView.undoManagerEnabled) {
         [self.textView.undoManager removeAllActions];
@@ -740,7 +740,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (!self.isEditing) {
         return;
     }
-    
+
     [self didCancelTextEditing:sender];
 }
 
@@ -749,9 +749,9 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (!self.isEditing) {
         return;
     }
-    
+
     [self.textInputbar endTextEdition];
-    
+
     [self.textView setText:nil];
 }
 
@@ -761,12 +761,12 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (self.isEditing || self.isAutoCompleting) {
         return NO;
     }
-    
+
     // Don't show if the content offset is not at top (when inverted) or at bottom (when not inverted)
     if ((self.isInverted && ![self.scrollViewProxy slk_isAtTop]) || (!self.isInverted && ![self.scrollViewProxy slk_isAtBottom])) {
         return NO;
     }
-    
+
     return YES;
 }
 
@@ -826,20 +826,20 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (![self.textInputbar canEditText:text]) {
         return;
     }
-    
+
     if (!SLK_IS_LANDSCAPE) {
         [self.textView setText:text];
     }
-    
+
     [self.textInputbar beginTextEditing];
-    
+
     // Setting the text after calling -beginTextEditing is safer when in landscape orientation
     if (SLK_IS_LANDSCAPE) {
         [self.textView setText:text];
     }
-    
+
     [self.textView slk_scrollToCaretPositonAnimated:YES];
-    
+
     // Brings up the keyboard if needed
     [self presentKeyboard:YES];
 }
@@ -847,7 +847,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
 - (void)performRightAction
 {
     NSArray *actions = [self.rightButton actionsForTarget:self forControlEvent:UIControlEventTouchUpInside];
-    
+
     if (actions.count > 0 && [self canPressRightButton]) {
         [self.rightButton sendActionsForControlEvents:UIControlEventTouchUpInside];
     }
@@ -858,26 +858,26 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (self.isExternalKeyboardDetected || self.isRotating) {
         return;
     }
-    
+
     NSMutableDictionary *userInfo = [notification.userInfo mutableCopy];
-    
+
     CGRect beginFrame = [notification.userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue];
     CGRect endFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    
+
     // Fixes iOS7 oddness with inverted values on landscape orientation
     if (!SLK_IS_IOS8_AND_HIGHER && SLK_IS_LANDSCAPE) {
         beginFrame = SLKRectInvert(beginFrame);
         endFrame = SLKRectInvert(endFrame);
     }
-    
+
     CGFloat keyboardHeight = CGRectGetHeight(endFrame)-CGRectGetHeight(self.textView.inputAccessoryView.bounds);
-    
+
     beginFrame.size.height = keyboardHeight;
     endFrame.size.height = keyboardHeight;
-    
+
     [userInfo setObject:[NSValue valueWithCGRect:beginFrame] forKey:UIKeyboardFrameBeginUserInfoKey];
     [userInfo setObject:[NSValue valueWithCGRect:endFrame] forKey:UIKeyboardFrameEndUserInfoKey];
-    
+
     NSString *name = [self appropriateKeyboardNotificationName:notification];
     [[NSNotificationCenter defaultCenter] postNotificationName:name object:self.textView userInfo:userInfo];
 }
@@ -887,7 +887,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (!self.scrollViewProxy.scrollsToTop || self.keyboardStatus == SLKKeyboardStatusWillShow) {
         return NO;
     }
-    
+
     if (self.isInverted) {
         [self.scrollViewProxy slk_scrollToTopAnimated:YES];
         return NO;
@@ -910,7 +910,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     else {
         [self.scrollViewProxy slk_scrollToBottomAnimated:YES];
     }
-    
+
     return YES;
 }
 
@@ -919,14 +919,14 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (![self.textView isFirstResponder]) {
         return;
     }
-    
+
     BOOL enable = !self.isAutoCompleting;
-    
+
     // Skips if the QuickType Bar isn't visible and it's trying to disable it. And the inverted logic.
     if (enable == self.textView.isTypingSuggestionEnabled) {
         return;
     }
-    
+
     // During text autocompletion, the iOS 8 QuickType bar is hidden and auto-correction and spell checking are disabled.
     [self.textView setTypingSuggestionEnabled:enable];
 }
@@ -936,29 +936,29 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (self.keyboardHC.constant == 0) {
         return;
     }
-    
+
     self.keyboardHC.constant = 0.0;
     self.scrollViewHC.constant = [self appropriateScrollViewHeight];
-    
+
     [self hideAutoCompletionViewIfNeeded];
-    
+
     // Forces the keyboard status change
     [self updateKeyboardStatus:SLKKeyboardStatusDidHide];
-    
+
     [self.view layoutIfNeeded];
 }
 
 - (BOOL)detectExternalKeyboardInNotification:(NSNotification *)notification
 {
     CGRect targetRect = CGRectZero;
-    
+
     if ([notification.name isEqualToString:UIKeyboardWillShowNotification]) {
         targetRect = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     }
     else if ([notification.name isEqualToString:UIKeyboardWillHideNotification]) {
         targetRect = [notification.userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue];
     }
-    
+
     CGRect keyboardFrame = [self.view convertRect:[self.view.window convertRect:targetRect fromWindow:nil] fromView:nil];
 
     if (!self.isMovingKeyboard) {
@@ -976,7 +976,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
 {
     // Reload only if the input views if the text view is first responder
     if (!self.isKeyboardPanningEnabled || ![self.textView isFirstResponder]) {
-        
+
         // Disables the input accessory when not first responder so when showing the keyboard back, there is no delay in the animation
         if (self.textView.inputAccessoryView) {
             self.textView.inputAccessoryView = nil;
@@ -993,7 +993,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
 - (void)prepareForInterfaceRotation
 {
     [self.view layoutIfNeeded];
-    
+
     if ([self.textView isFirstResponder]) {
         [self.textView slk_scrollToCaretPositonAnimated:NO];
     }
@@ -1011,7 +1011,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
         [self didCommitTextEditing:sender];
         return;
     }
-    
+
     [self performRightAction];
 }
 
@@ -1023,11 +1023,11 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     else if (self.isEditing) {
         [self didCancelTextEditing:sender];
     }
-    
+
     if (self.isExternalKeyboardDetected || ([self.textView isFirstResponder] && self.keyboardHC.constant == 0)) {
         return;
     }
-    
+
     [self dismissKeyboard:YES];
 }
 
@@ -1055,38 +1055,38 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (self.textView.didNotResignFirstResponder) {
         return;
     }
-    
+
     // Skips this it's not the expected textView and shouldn't force adjustment of the text input bar.
     // This will also dismiss the text input bar if it's visible, and exit auto-completion mode if enabled.
     if (![self.textView isFirstResponder] && !self.shouldForceTextInputbarAdjustment) {
         return [self dismissTextInputbarIfNeeded];
     }
-    
+
     NSInteger curve = [notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue];
     NSTimeInterval duration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    
+
     SLKKeyboardStatus status = [self keyboardStatusForNotification:notification];
 
     // Programatically stops scrolling before updating the view constraints (to avoid scrolling glitch)
     if (status == SLKKeyboardStatusWillShow) {
         [self.scrollViewProxy slk_stopScrolling];
     }
-    
+
     // Updates the height constraints' constants
     self.keyboardHC.constant = [self appropriateKeyboardHeight:notification];
     self.scrollViewHC.constant = [self appropriateScrollViewHeight];
-    
+
     // Hides the autocompletion view if the keyboard is being dismissed
     if (![self.textView isFirstResponder] || status == SLKKeyboardStatusWillHide) {
         [self hideAutoCompletionViewIfNeeded];
     }
-    
+
     // Updates and notifies about the keyboard status update
     if ([self updateKeyboardStatus:status]) {
         // Posts custom keyboard notification, if logical conditions apply
         [self postKeyboarStatusNotification:notification];
     }
-    
+
     // Only for this animation, we set bo to bounce since we want to give the impression that the text input is glued to the keyboard.
     [self.view slk_animateLayoutIfNeededWithDuration:duration
                                               bounce:NO
@@ -1102,35 +1102,35 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (!self.view.window) {
         return;
     }
-    
+
     // Skips if it is presented inside of a popover
     if (self.isPresentedInPopover) {
         return;
     }
-    
+
     // Skips if textview did refresh only
     if (self.textView.didNotResignFirstResponder) {
         return;
     }
-    
+
     SLKKeyboardStatus status = [self keyboardStatusForNotification:notification];
 
     // Skips if it's the current status
     if (self.keyboardStatus == status) {
         return;
     }
-    
+
     // After showing keyboard, check if the current cursor position could diplay autocompletion
     if ([self.textView isFirstResponder] && status == SLKKeyboardStatusDidShow && !self.isAutoCompleting) {
         [self processTextForAutoCompletion];
     }
-    
+
     // Updates and notifies about the keyboard status update
     if ([self updateKeyboardStatus:status]) {
         // Posts custom keyboard notification, if logical conditions apply
         [self postKeyboarStatusNotification:notification];
     }
-    
+
     // Updates the dismiss mode and input accessory view, if needed.
     [self reloadInputAccessoryViewIfNeeded];
 
@@ -1144,19 +1144,19 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (!self.view.window) {
         return;
     }
-    
+
     // Skips if it is presented inside of a popover
     if (self.isPresentedInPopover) {
         return;
     }
-    
+
     // Skips this if it's not the expected textView.
     // Checking the keyboard height constant helps to disable the view constraints update on iPad when the keyboard is undocked.
     // Checking the keyboard status allows to keep the inputAccessoryView valid when still reacing the bottom of the screen.
     if (![self.textView isFirstResponder] || (self.keyboardHC.constant == 0 && self.keyboardStatus == SLKKeyboardStatusDidHide)) {
         return;
     }
-    
+
     if (self.scrollViewProxy.isDragging) {
         self.movingKeyboard = YES;
     }
@@ -1164,17 +1164,17 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (self.isMovingKeyboard == NO) {
         return;
     }
-    
+
     self.keyboardHC.constant = [self appropriateKeyboardHeight:notification];
     self.scrollViewHC.constant = [self appropriateScrollViewHeight];
-    
+
     // layoutIfNeeded must be called before any further scrollView internal adjustments (content offset and size)
     [self.view layoutIfNeeded];
-    
-    
+
+
     // Overrides the scrollView's contentOffset to allow following the same position when dragging the keyboard
     CGPoint offset = _scrollViewOffsetBeforeDragging;
-    
+
     if (self.isInverted) {
         if (!self.scrollViewProxy.isDecelerating && self.scrollViewProxy.isTracking) {
             self.scrollViewProxy.contentOffset = _scrollViewOffsetBeforeDragging;
@@ -1183,7 +1183,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     else {
         CGFloat keyboardHeightDelta = _keyboardHeightBeforeDragging-self.keyboardHC.constant;
         offset.y -= keyboardHeightDelta;
-        
+
         self.scrollViewProxy.contentOffset = offset;
     }
 }
@@ -1193,7 +1193,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (![notification.object isEqual:self.textView]) {
         return;
     }
-    
+
     // Used for debug only
     NSLog(@"%@ didPostSLKKeyboardNotification : %@", NSStringFromClass([self class]), notification);
 }
@@ -1204,7 +1204,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (![notification.object isEqual:self.textView]) {
         return;
     }
-    
+
     [self textWillUpdate];
 }
 
@@ -1214,7 +1214,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (![notification.object isEqual:self.textView]) {
         return;
     }
-    
+
     // Animated only if the view already appeared.
     [self textDidUpdate:self.isViewVisible];
 }
@@ -1225,7 +1225,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (![notification.object isEqual:self.textView]) {
         return;
     }
-    
+
     // Animated only if the view already appeared.
     [self textDidUpdate:self.isViewVisible];
 }
@@ -1236,7 +1236,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (![self.textView isFirstResponder]) {
         return;
     }
-    
+
     // Notifies only if the pasted item is nested in a dictionary.
     if ([notification.userInfo isKindOfClass:[NSDictionary class]]) {
         [self didPasteMediaContent:notification.userInfo];
@@ -1249,7 +1249,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (![self.textView isFirstResponder]) {
         return;
     }
-    
+
     // Notifies of the shake gesture if undo mode is on and the text view is not empty
     if (self.shakeToClearEnabled && self.textView.text.length > 0) {
         [self willRequestUndo];
@@ -1262,27 +1262,27 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (![self.textView isFirstResponder]) {
         return;
     }
-    
+
     [self processTextForAutoCompletion];
 }
 
 - (void)willShowOrHideTypeIndicatorView:(NSNotification *)notification
 {
     SLKTypingIndicatorView *indicatorView = (SLKTypingIndicatorView *)notification.object;
-    
+
     // Skips if it's not the expected typing indicator view.
     if (![indicatorView isEqual:self.typingIndicatorView]) {
         return;
     }
-    
+
     // Skips if the typing indicator should not show. Ignores the checking if it's trying to hide.
     if (![self canShowTypeIndicator] && !self.typingIndicatorView.isVisible) {
         return;
     }
-    
+
     self.typingIndicatorViewHC.constant = indicatorView.isVisible ?  0.0 : indicatorView.height;
     self.scrollViewHC.constant -= self.typingIndicatorViewHC.constant;
-    
+
     [self.view slk_animateLayoutIfNeededWithBounce:self.bounces
                                            options:UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionLayoutSubviews|UIViewAnimationOptionBeginFromCurrentState
                                         animations:NULL];
@@ -1300,23 +1300,23 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
 - (void)registerPrefixesForAutoCompletion:(NSArray *)prefixes
 {
     NSMutableArray *array = [NSMutableArray arrayWithArray:self.registeredPrefixes];
-    
+
     for (NSString *prefix in prefixes) {
         // Skips if the prefix is not a valid string
         if (![prefix isKindOfClass:[NSString class]] || prefix.length == 0) {
             continue;
         }
-        
+
         // Adds the prefix if not contained already
         if (![array containsObject:prefix]) {
             [array addObject:prefix];
         }
     }
-    
+
     if (_registeredPrefixes) {
         _registeredPrefixes = nil;
     }
-    
+
     _registeredPrefixes = [[NSArray alloc] initWithArray:array];
 }
 
@@ -1325,36 +1325,36 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (self.isRotating || self.textView.isFastDeleting) {
         return;
     }
-    
+
     // Avoids text processing for autocompletion if the registered prefix list is empty.
     if (self.registeredPrefixes.count == 0) {
         return;
     }
-    
+
     NSString *text = self.textView.text;
-    
+
     // No need to process for autocompletion if there is no text to process
     if (text.length == 0) {
         return [self cancelAutoCompletion];
     }
-    
+
     NSRange range;
     NSString *word = [self.textView slk_wordAtCaretRange:&range];
-    
+
     for (NSString *sign in self.registeredPrefixes) {
-        
+
         NSRange keyRange = [word rangeOfString:sign];
-        
+
         if (keyRange.location == 0 || (keyRange.length >= 1)) {
-            
+
             // Captures the detected symbol prefix
             _foundPrefix = sign;
-            
+
             // Used later for replacing the detected range with a new string alias returned in -acceptAutoCompletionWithString:
             _foundPrefixRange = NSMakeRange(range.location, sign.length);
         }
     }
-    
+
     [self handleProcessedWord:word range:range];
 }
 
@@ -1364,16 +1364,16 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (self.textView.selectedRange.location <= _foundPrefixRange.location) {
         return [self cancelAutoCompletion];
     }
-    
+
     if (self.foundPrefix.length > 0) {
         if (range.length == 0 || range.length != word.length) {
             return [self cancelAutoCompletion];
         }
-        
+
         if (word.length > 0) {
             // Removes the first character, containing the symbol prefix
             _foundWord = [word substringFromIndex:1];
-            
+
             // If the prefix is still contained in the word, cancels
             if ([self.foundWord rangeOfString:self.foundPrefix].location != NSNotFound) {
                 return [self cancelAutoCompletion];
@@ -1386,7 +1386,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     else {
         return [self cancelAutoCompletion];
     }
-    
+
     [self showAutoCompletionView:[self canShowAutoCompletion]];
 }
 
@@ -1395,9 +1395,9 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     _foundPrefix = nil;
     _foundWord = nil;
     _foundPrefixRange = NSMakeRange(0,0);
-    
+
     [self.autoCompletionView setContentOffset:CGPointZero];
-    
+
     [self hideAutoCompletionViewIfNeeded];
 }
 
@@ -1406,16 +1406,16 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (string.length == 0) {
         return;
     }
-    
+
     SLKTextView *textView = self.textView;
-    
+
     NSRange range = NSMakeRange(self.foundPrefixRange.location+1, self.foundWord.length);
     NSRange insertionRange = [textView slk_insertText:string inRange:range];
-    
+
     textView.selectedRange = NSMakeRange(insertionRange.location, 0);
-    
+
     [self cancelAutoCompletion];
-    
+
     [textView slk_scrollToCaretPositonAnimated:NO];
 }
 
@@ -1432,48 +1432,48 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (self.isRotating) {
         return;
     }
-    
+
     CGFloat viewHeight = show ? [self heightForAutoCompletionView] : 0.0;
-    
+
     if (self.autoCompletionViewHC.constant == viewHeight) {
         return;
     }
-    
+
     if (show) {
         // Reload the tableview before showing it
         [self.autoCompletionView reloadData];
         [self.autoCompletionView setContentOffset:CGPointZero];
     }
-    
+
     // If the autocompletion view height is bigger than the maximum height allows, it is reduce to that size. Default 140 pts.
     if (viewHeight > [self maximumHeightForAutoCompletionView]) {
         viewHeight = [self maximumHeightForAutoCompletionView];
     }
-    
+
     CGFloat tableHeight = self.scrollViewHC.constant + self.autoCompletionViewHC.constant;
-    
+
     // Only when the view extends its layout beyond it top edge
     if ((self.edgesForExtendedLayout & UIRectEdgeTop) > 0) {
-        
+
         // On iOS7, the status bar isn't automatically hidden on landscape orientation
         if (SLK_IS_IPHONE && SLK_IS_LANDSCAPE && !SLK_IS_IOS8_AND_HIGHER) {
             tableHeight -= CGRectGetHeight([UIApplication sharedApplication].statusBarFrame);
         }
-        
+
         tableHeight -= CGRectGetHeight(self.navigationController.navigationBar.frame);
     }
-    
+
     // On iPhone, the autocompletion view can't extend beyond the table view height
     if (SLK_IS_IPHONE && viewHeight > tableHeight) {
         viewHeight = tableHeight;
     }
-    
+
     self.autoCompletionViewHC.constant = viewHeight;
     self.autoCompleting = show;
-    
+
     // Toggles auto-correction if requiered
     [self enableTypingSuggestionIfNeeded];
-    
+
 	[self.view slk_animateLayoutIfNeededWithBounce:self.bounces
 										   options:UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionLayoutSubviews|UIViewAnimationOptionBeginFromCurrentState
 										animations:NULL];
@@ -1492,7 +1492,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
 {
     NSString *keyForTextCaching = [self keyForTextCaching];
     NSString *previousCachedText = [[NSUserDefaults standardUserDefaults] objectForKey:keyForTextCaching];
-    
+
     if ([previousCachedText isKindOfClass:[NSString class]]) {
         return keyForTextCaching;
     }
@@ -1523,21 +1523,21 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
 + (void)clearAllCachedText
 {
     NSMutableArray *cachedKeys = [NSMutableArray new];
-    
+
     for (NSString *key in [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys]) {
         if ([key rangeOfString:SLKTextViewControllerDomain].location != NSNotFound) {
             [cachedKeys addObject:key];
         }
     }
-    
+
     if (cachedKeys.count == 0) {
         return;
     }
-    
+
     for (NSString *cachedKey in cachedKeys) {
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:cachedKey];
     }
-    
+
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -1551,7 +1551,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (!self.isCachingEnabled) {
         return nil;
     }
-    
+
     NSString *key = [self keyForPersistency];
     return [[NSUserDefaults standardUserDefaults] objectForKey:key];
 }
@@ -1561,7 +1561,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (!self.isCachingEnabled) {
         return;
     }
-    
+
     NSString *cachedText = [self cachedText];
     NSString *key = [self keyForPersistency];
 
@@ -1577,7 +1577,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
         // Skips so it doesn't hit 'synchronize' unnecessarily
         return;
     }
-    
+
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -1587,22 +1587,22 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
 - (BOOL)textView:(SLKTextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     self.newWordInserted = ([text rangeOfCharacterFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].location != NSNotFound);
-    
+
     // Records text for undo for every new word
     if (self.newWordInserted) {
         [self.textView prepareForUndo:@"Word Change"];
     }
-    
+
     if ([text isEqualToString:@"\n"]) {
         //Detected break. Should insert new line break manually.
         [textView slk_insertNewLineBreak];
-        
+
         return NO;
     }
     else {
         NSDictionary *userInfo = @{@"text": text, @"range": [NSValue valueWithRange:range]};
         [[NSNotificationCenter defaultCenter] postNotificationName:SLKTextViewTextWillChangeNotification object:self.textView userInfo:userInfo];
-        
+
         return YES;
     }
 }
@@ -1613,12 +1613,12 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (![self.textView isFirstResponder]) {
         return;
     }
-    
+
     // Skips if the loupe is visible or if there is a real text selection
     if (textView.isLoupeVisible || self.textView.selectedRange.length > 0) {
         return;
     }
-    
+
     // Process the text at every caret movement
     [self processTextForAutoCompletion];
 }
@@ -1684,19 +1684,19 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
         return [self.textView isFirstResponder] && !self.isExternalKeyboardDetected;
     }
     else if ([gesture isEqual:self.verticalPanGesture]) {
-        
+
         if ([self.textView isFirstResponder]) {
             return NO;
         }
-        
+
         CGPoint velocity = [self.verticalPanGesture velocityInView:self.view];
-        
+
         // Vertical panning, from bottom to top only
         if (velocity.y < 0 && ABS(velocity.y) > ABS(velocity.x) && ![self.textInputbar.textView isFirstResponder]) {
             return YES;
         }
     }
-    
+
     return NO;
 }
 
@@ -1720,19 +1720,19 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
                             @"typingIndicatorView": self.typingIndicatorView,
                             @"textInputbar": self.textInputbar,
                             };
-    
+
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[scrollView(0@750)][autoCompletionView(0@750)][typingIndicatorView(0)]-0@999-[textInputbar(>=0)]|" options:0 metrics:nil views:views]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[scrollView]|" options:0 metrics:nil views:views]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[autoCompletionView]|" options:0 metrics:nil views:views]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[typingIndicatorView]|" options:0 metrics:nil views:views]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[textInputbar]|" options:0 metrics:nil views:views]];
-    
+
     self.scrollViewHC = [self.view slk_constraintForAttribute:NSLayoutAttributeHeight firstItem:self.scrollViewProxy secondItem:nil];
     self.autoCompletionViewHC = [self.view slk_constraintForAttribute:NSLayoutAttributeHeight firstItem:self.autoCompletionView secondItem:nil];
     self.typingIndicatorViewHC = [self.view slk_constraintForAttribute:NSLayoutAttributeHeight firstItem:self.typingIndicatorView secondItem:nil];
     self.textInputbarHC = [self.view slk_constraintForAttribute:NSLayoutAttributeHeight firstItem:self.textInputbar secondItem:nil];
     self.keyboardHC = [self.view slk_constraintForAttribute:NSLayoutAttributeBottom firstItem:self.view secondItem:self.textInputbar];
-    
+
     self.textInputbarHC.constant = [self minimumInputbarHeight];
     self.scrollViewHC.constant = [self appropriateScrollViewHeight];
 
@@ -1749,18 +1749,18 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     if (_keyboardCommands) {
         return _keyboardCommands;
     }
-    
+
     _keyboardCommands = @[
           // Pressing Return key
           [UIKeyCommand keyCommandWithInput:@"\r" modifierFlags:0 action:@selector(didPressReturnKey:)],
           // Pressing Esc key
           [UIKeyCommand keyCommandWithInput:UIKeyInputEscape modifierFlags:0 action:@selector(didPressEscapeKey:)],
-          
+
           // Up/Down
           [UIKeyCommand keyCommandWithInput:UIKeyInputUpArrow modifierFlags:0 action:@selector(didPressArrowKey:)],
           [UIKeyCommand keyCommandWithInput:UIKeyInputDownArrow modifierFlags:0 action:@selector(didPressArrowKey:)],
           ];
-    
+
     return _keyboardCommands;
 }
 
@@ -1774,14 +1774,14 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willShowOrHideKeyboard:) name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didShowOrHideKeyboard:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didShowOrHideKeyboard:) name:UIKeyboardDidHideNotification object:nil];
-    
+
 #if SLK_KEYBOARD_NOTIFICATION_DEBUG
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didPostSLKKeyboardNotification:) name:SLKKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didPostSLKKeyboardNotification:) name:SLKKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didPostSLKKeyboardNotification:) name:SLKKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didPostSLKKeyboardNotification:) name:SLKKeyboardDidHideNotification object:nil];
 #endif
-    
+
     // Keyboard Accessory View notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeKeyboardFrame:) name:SLKInputAccessoryViewKeyboardFrameDidChangeNotification object:nil];
 
@@ -1796,7 +1796,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     // TypeIndicator notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willShowOrHideTypeIndicatorView:) name:SLKTypingIndicatorViewWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willShowOrHideTypeIndicatorView:) name:SLKTypingIndicatorViewWillHideNotification object:nil];
-    
+
     // Application notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willTerminateApplication:) name:UIApplicationWillTerminateNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willTerminateApplication:) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
@@ -1809,17 +1809,17 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
-    
+
 #if SLK_KEYBOARD_NOTIFICATION_DEBUG
     [[NSNotificationCenter defaultCenter] removeObserver:self name:SLKKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:SLKKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:SLKKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:SLKKeyboardDidHideNotification object:nil];
 #endif
-    
+
     // TextView notifications
     [[NSNotificationCenter defaultCenter] removeObserver:self name:SLKInputAccessoryViewKeyboardFrameDidChangeNotification object:nil];
-    
+
     // TextView notifications
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidBeginEditingNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidEndEditingNotification object:nil];
@@ -1833,7 +1833,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     // TypeIndicator notifications
     [[NSNotificationCenter defaultCenter] removeObserver:self name:SLKTypingIndicatorViewWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:SLKTypingIndicatorViewWillHideNotification object:nil];
-    
+
     // Application notifications
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
@@ -1845,7 +1845,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     self.rotating = YES;
-    
+
     [self prepareForInterfaceRotation];
 }
 
@@ -1880,19 +1880,19 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     _tableView.delegate = nil;
     _tableView.dataSource = nil;
     _tableView = nil;
-    
+
     _collectionView.delegate = nil;
     _collectionView.dataSource = nil;
     _collectionView = nil;
-    
+
     _autoCompletionView.delegate = nil;
     _autoCompletionView.dataSource = nil;
     _autoCompletionView = nil;
-    
+
     _textInputbar.textView.delegate = nil;
     _textInputbar = nil;
     _typingIndicatorView = nil;
-    
+
     _registeredPrefixes = nil;
     _keyboardCommands = nil;
 
@@ -1906,7 +1906,7 @@ NSString * const SLKKeyboardDidHideNotification =   @"SLKKeyboardDidHideNotifica
     _typingIndicatorViewHC = nil;
     _autoCompletionViewHC = nil;
     _keyboardHC = nil;
-    
+
     [self unregisterNotifications];
 }
 
